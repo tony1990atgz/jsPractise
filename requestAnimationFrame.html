@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>frame</title>
+</head>
+<body>
+  <h1>requestAnimationFrame</h1>
+  <h3 id='time'></h3>
+  <script>
+    function setInterval(callback, interval) {
+      const now = Date.now
+      let start = now()
+      let end = start
+      let timer
+      let loop = () => {
+        timer = window.requestAnimationFrame(loop)
+        end = now()
+        if (end - start >= interval) {
+          start = end = now()
+          callback(timer)
+        }
+      }
+      window.requestAnimationFrame(loop)
+    }
+
+    let time = document.getElementById('time')
+    setInterval(timer => {
+      time.innerHTML = new Date()
+    }, 1000);
+    time.innerHTML = new Date()
+  </script>
+</body>
+</html>

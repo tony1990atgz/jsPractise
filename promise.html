@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>myPromise</title>
+</head>
+<body>
+<h1>myPromise</h1>
+<script>
+	function myPromise() {
+		this.status = 'pending'
+		this.value = ''
+		this.promiseResolveCallbacks = []
+		this.promiseRejectCallbacks = []
+
+		let that = this
+		let funcs = arguments[0]
+
+		function resolve(value) {
+			if (that.status === 'pending') {
+				that.status = 'resolve'
+				that.value = value
+				mapCallbacks(that.promiseResolveCallbacks)
+			}
+		}
+
+		function reject(err) {
+			if (that.status === 'pending') {
+				that.status = 'reject'
+				that.value = err
+				mapCallbacks(that.promiseResolveCallbacks)
+			}
+		}
+
+		function mapCallbacks(callbacks) {
+			callbacks.forEach(item => {
+				item(that.value)
+			})
+		}
+
+		funcs(resolve, reject)
+	}
+
+	myPromise.prototype.then = function(resolve, reject) {
+		if (this.status === 'pending') {
+			this.promiseResolveCallbacks.push(resolve)
+			this.promiseRejectCallbacks.push(reject)
+		}
+
+		if (this.status === 'resolve') {
+			resolve(this.value)
+		}
+
+		if (this.status === 'reject') {
+			reject(this.value)
+		}
+		return this
+	}
+
+
+	new myPromise((resolve, reject) => {
+		console.log('promise')
+		console.log(window === this)
+		// 当前this 的执行环境是window，所以resolve中写this会指向window报错，所以用that
+		setTimeout(() => {
+			resolve(666)
+		}, 3000)
+	}).then(res => {
+		console.log(res)
+	})
+</script>
+</body>
+</html>

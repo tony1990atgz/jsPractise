@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>apply & call & bind</title>
+</head>
+<body>
+  <h1>apply & call & bind</h1>
+  <script>
+    Function.prototype.myapply = function(context) {
+      if (typeof this !== 'function') {
+        throw new Error('object should be a function')
+      }
+      context.fn = this
+      const args = arguments[1]
+      const result = context.fn(...args)
+      delete context.fn
+      return result
+    }
+
+    function a() {
+      console.log('-----------type-----------')
+      console.log(this.name, arguments)
+    }
+
+    a.myapply({name: 'tony'}, [1,2,3])
+
+    Function.prototype.mycall = function(context) {
+      if (typeof this !== 'function') {
+        throw new Error('object should be a function')
+      }
+      context.fn = this
+      const args = [...arguments].slice(1)
+      const result = context.fn(...args)
+      delete context.fn
+      return result
+    }
+
+    a.mycall({name: 'tony call'},3,4,5)
+
+    Function.prototype.mybind = function(context) {
+      if (typeof this !== 'function') {
+        throw new Error('should be a function')
+      }
+      context.fn = this
+      const args = [...arguments].slice(1)
+      return function() {
+        const concatArgs = args.concat([...arguments])
+        const result = context.fn(...concatArgs)
+        delete context.fn
+        return result
+      }
+    }
+
+    a.mybind({name: 'jack', age: 1},11,22)(3,4,5)
+  </script>
+</body>
+</html>
