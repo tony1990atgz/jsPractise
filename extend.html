@@ -10,25 +10,25 @@
   <h1>继承</h1>
   <script>
     // 组合继承
-    function parent() {
-      this.name = 'parent'
-      this.say = function() {
-        console.log('i am parent')
-      }
-    }
-    parent.prototype.hello = function() {
-      console.log('hello from parent')
-    }
+    // function parent() {
+    //   this.name = 'parent'
+    //   this.say = function() {
+    //     console.log('i am parent')
+    //   }
+    // }
+    // parent.prototype.hello = function() {
+    //   console.log('hello from parent')
+    // }
 
     
-    function child() {
-      parent.call(this)
-    }
-    child.prototype = new parent()
+    // function child() {
+    //   parent.call(this)
+    // }
+    // child.prototype = new parent()
 
-    var c = new child()
-    c.say()
-    c.hello()
+    // var c = new child()
+    // c.say()
+    // c.hello()
 
     // 寄生组合继承
     function parent1() {
@@ -41,12 +41,14 @@
       console.log('hello from parent1')
     }
 
-    function F() {parent1.call(this)}
+    function F() {
+      //parent1.call(this)
+    }
 
     F.prototype = parent1.prototype
     
     function child1() {
-      F.call(this)
+      parent1.call(this)
     }
     child1.prototype = new F()
     child1.prototype.constructor = child1
