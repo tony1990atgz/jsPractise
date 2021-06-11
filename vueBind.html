@@ -1,94 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>vuebind</title>
-</head>
-<body>
-  <input type="text" id='input'>
-  <span id='output'></span>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>vuebind</title>
+  </head>
+  <body>
+    <input type="text" id="input" />
+    <span id="output"></span>
 
-  <script>
-    function observe(data) {
-      if (typeof data !== 'object' && data === null) {
-        throw new Error('need a object')
-      }
-      for (let key in data) {
-        if (data.hasOwnProperty(key)) {
-          defineReactive(data, key, data[key])
+    <script>
+      function observe(data) {
+        if (typeof data !== "object" && data === null) {
+          throw new Error("need a object");
         }
-      }
-    }
-
-    function defineReactive(data, key, val) {
-      if (typeof val === 'object') {
-        observe(val)
-      }
-      var dep = new Dep()
-
-      Object.defineProperty(data, key , {
-        configurable: true,
-        enumerable: true,
-        get: function() {
-          if (Dep.target) {
-            dep.addSub(Dep.target)
+        for (let key in data) {
+          if (data.hasOwnProperty(key)) {
+            defineReactive(data, key, data[key]);
           }
-          return val
-        },
-        set: function(newVal) {
-          val = newVal
-          dep.notify()
         }
-      })
-    }
-    
-
-    function Dep() {
-      this.subs = []
-      this.addSub = function(sub) {
-        this.subs.push(sub)
       }
-      this.notify = function() {
-        var subs = this.subs
-        subs.forEach(item => {
-          item.update()
-        })
+
+      function defineReactive(data, key, val) {
+        if (typeof val === "object") {
+          observe(val);
+        }
+        var dep = new Dep();
+
+        Object.defineProperty(data, key, {
+          configurable: true,
+          enumerable: true,
+          get: function () {
+            if (Dep.target) {
+              dep.addSub(Dep.target);
+            }
+            return val;
+          },
+          set: function (newVal) {
+            val = newVal;
+            dep.notify();
+          },
+        });
       }
-    }
-    Dep.target = null
 
-    function Watcher(data, key , callback) {
-      this.init = function() {
-        Dep.target = this
-        this.data = data
-        this.key = key
-        this.value =  data[key]
-        Dep.target = null
+      function Dep() {
+        this.subs = [];
+        this.addSub = function (sub) {
+          this.subs.push(sub);
+        };
+        this.notify = function () {
+          var subs = this.subs;
+          subs.forEach((item) => {
+            item.update();
+          });
+        };
       }
-      this.init()
+      Dep.target = null;
 
-      this.update = function() {
-        this.value = this.data[this.key]
-        callback(this.value)
+      function Watcher(data, key, callback) {
+        this.init = function () {
+          Dep.target = this;
+          this.data = data;
+          this.key = key;
+          this.value = data[key];
+          Dep.target = null;
+        };
+        this.init();
+
+        this.update = function () {
+          this.value = this.data[this.key];
+          callback(this.value);
+        };
       }
-    }
-    
-    var obj = {name: 'jarvis'}
-    var $result = document.querySelector('#output')
-    $result.innerHTML = obj.name
 
-    observe(obj)
+      var obj = { name: "jarvis" };
+      var $result = document.querySelector("#output");
+      $result.innerHTML = obj.name;
 
-    new Watcher(obj, 'name', value => {
-      $result.innerHTML = value
-    })
+      observe(obj);
 
-    document.querySelector('#input').onkeyup = function() {
-      console.log('change')
-      obj.name = this.value
-    }
-  </script>
-</body>
+      new Watcher(obj, "name", (value) => {
+        $result.innerHTML = value;
+      });
+
+      document.querySelector("#input").onkeyup = function () {
+        console.log("change");
+        obj.name = this.value;
+      };
+    </script>
+  </body>
 </html>

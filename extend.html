@@ -1,62 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>继承</title>
-</head>
-<body>
-  <h1>继承</h1>
-  <script>
-    // 组合继承
-    // function parent() {
-    //   this.name = 'parent'
-    //   this.say = function() {
-    //     console.log('i am parent')
-    //   }
-    // }
-    // parent.prototype.hello = function() {
-    //   console.log('hello from parent')
-    // }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>继承</title>
+  </head>
+  <body>
+    <h1>继承</h1>
+    <script>
+      // 组合继承
+      // function parent() {
+      //   this.name = 'parent'
+      //   this.say = function() {
+      //     console.log('i am parent')
+      //   }
+      // }
+      // parent.prototype.hello = function() {
+      //   console.log('hello from parent')
+      // }
 
-    
-    // function child() {
-    //   parent.call(this)
-    // }
-    // child.prototype = new parent()
+      // function child() {
+      //   parent.call(this)
+      // }
+      // child.prototype = new parent()
 
-    // var c = new child()
-    // c.say()
-    // c.hello()
+      // var c = new child()
+      // c.say()
+      // c.hello()
 
-    // 寄生组合继承
-    function parent1() {
-      this.name = 'parent'
-      this.say = function() {
-        console.log('i am parent1')
+      // 寄生组合继承
+      function parent1() {
+        this.name = "parent";
+        this.say = function () {
+          console.log("i am parent1");
+        };
       }
-    }
-    parent1.prototype.hello = function() {
-      console.log('hello from parent1')
-    }
+      parent1.prototype.hello = function () {
+        console.log("hello from parent1");
+      };
 
-    function F() {
-      //parent1.call(this)
-    }
+      function F() {
+        //parent1.call(this)
+      }
 
-    F.prototype = parent1.prototype
-    
-    function child1() {
-      parent1.call(this)
-    }
-    child1.prototype = new F()
-    child1.prototype.constructor = child1
+      F.prototype = parent1.prototype;
 
-    var cc = new child1()
-    cc.say()
-    cc.hello()
+      function child1() {
+        parent1.call(this);
+      }
+      child1.prototype = new F();
+      child1.prototype.constructor = child1;
 
-  </script>
-</body>-
-</html> 
+      var cc = new child1();
+      cc.say();
+      cc.hello();
+    </script>
+  </body>
+  -
+</html>
