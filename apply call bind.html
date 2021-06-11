@@ -9,7 +9,7 @@
 <body>
   <h1>apply & call & bind</h1>
   <script>
-    Function.prototype.myapply      =     function(context) {
+    Function.prototype.myapply      =     	function(context) {
       if (typeof this 
       !== 'function') {
         throw new Error('object should be a function')
