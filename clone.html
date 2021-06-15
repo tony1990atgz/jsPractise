@@ -17,7 +17,7 @@
           throw
             new Error("clone object should be an object");
         }
-        let clone = Array.isArray(data) ? [] : {};
+        let clone =         Array.isArray(data) ? [] : {};
         for (let key in data) {
           if (data.hasOwnProperty(key)) {
             let temp = data[key];
