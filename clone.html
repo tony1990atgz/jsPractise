@@ -11,8 +11,11 @@
     <script>
       // 深拷贝1133
       function deepClone(data) {
-        if (!isObject(data)) {
-          throw new Error("clone object should be an object");
+        if (
+          !isObject(
+            data)) {
+          throw
+            new Error("clone object should be an object");
         }
         let clone = Array.isArray(data) ? [] : {};
         for (let key in data) {
